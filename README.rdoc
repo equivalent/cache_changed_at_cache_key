@@ -1,0 +1,7 @@
+= CacheChangedAtCacheKey
+
+== Instalation
+
+    gem cache_changed_at_cache_key
+
+This project rocks and uses MIT-LICENSE.
