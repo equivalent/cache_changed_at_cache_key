@@ -64,3 +64,24 @@ describe Blog, 'touch' do
     expect(blog.cache_changed_at).to be_within(delta).of(blog.updated_at)
   end
 end
+
+
+describe 'cache_key' do
+  subject{ blog.cache_key }
+
+  context "when persisted record" do
+    let!(:blog){ FactoryGirl.create :blog, :with_different_times }
+    it "should be generaterd from cache_changed_at" do
+      should eq "blogs/#{blog.id}-#{blog.cache_changed_at.utc.to_s(:number)}"
+    end
+  end
+
+  context "when new record" do
+    let!(:blog){ FactoryGirl.build :blog }
+    it "should use the native ActiveRecord functionality" do
+      should eq "blogs/new"
+    end
+  end
+
+
+end

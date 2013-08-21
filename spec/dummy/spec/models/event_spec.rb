@@ -11,7 +11,6 @@ describe Event, 'touch_cache' do
   end
 end
 
-
 describe Event, 'touch' do
   let!(:event){ FactoryGirl.create :event, :created_in_past }
 
@@ -21,4 +20,14 @@ describe Event, 'touch' do
 
     expect(event.updated_at).to be_within(delta).of(Time.now)
   end
+end
+
+describe 'cache_key' do
+  let!(:event){ FactoryGirl.create :event, :created_in_past }
+  subject{ event.cache_key }
+
+  it "should be generaterd from cache_changed_at" do
+    should eq "events/#{event.id}-#{event.updated_at.utc.to_s(:number)}"
+  end
+
 end

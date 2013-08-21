@@ -21,4 +21,12 @@ module CacheChangedAtCacheKeyConcern
     super(:cache_changed_at) if respond_to?(:cache_changed_at)
     super(*args)
   end
+
+  def cache_key
+    if timestamp = self[:cache_changed_at]
+      "#{self.class.model_name.cache_key}/#{id}-#{timestamp.utc.to_s(:number)}"
+    else
+      super
+    end
+  end
 end
